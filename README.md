@@ -52,3 +52,21 @@ If you find the code useful, please cite our paper:
       year={2021}
       pages={10807-10817}
     }
+
+The code is implemented based on 
+https://github.com/feihuzhang/DSMNet and https://github.com/princeton-vl/RAFT.
+Please also consider citing:
+
+    @inproceedings{zhang2019domaininvariant,
+      title={Domain-invariant Stereo Matching Networks},
+      author={Feihu Zhang and Xiaojuan Qi and Ruigang Yang and Victor Prisacariu and Benjamin Wah and Philip Torr},
+      booktitle={Europe Conference on Computer Vision (ECCV)},
+      year={2020}
+    }
+    @inproceedings{teed2020raft,
+      title={RAFT: Recurrent All Pairs Field Transforms for Optical Flow},
+      author={Zachary Teed and Jia Deng},
+      booktitle={Europe Conference on Computer Vision (ECCV)},
+      year={2020}
+    }
+  
