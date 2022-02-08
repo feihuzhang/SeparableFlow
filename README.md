@@ -8,15 +8,15 @@
 
     gcc: >=5.3
     GPU mem: >=5G (for testing);  >=11G (for training)
-    pytorch: >=1.0
+    pytorch: >=1.6
     cuda: >=9.2 (9.0 doesn’t support well for the new pytorch version and may have “pybind11 errors”.)
     tested platform/settings:
-      1) ubuntu 16.04 + cuda 10.0 + python 3.6, 3.7
-      2) centos + cuda 9.2 + python 3.7
+      1) ubuntu 18.04 + cuda 11.0 + python 3.6, 3.7
+      2) centos + cuda 11 + python 3.7
       
 
 ## Install Pytorch:
-You can easily install pytorch (>=1.1) by "pip install" or anaconda.
+You can easily install pytorch (>=1.6) by "pip install" or anaconda.
 
 
 ## How to Use?
@@ -35,7 +35,7 @@ Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for train
 | things | sintel | kitti|
 |---|---|---|
 |[Google Drive]|[Google Drive]|[Google Drive]|
-|[Baidu Yun (password: )]|[Baidu Yun (password: )]|[Baidu Yun (password: )]|
+|[Baidu Yun (password: zk5s)](https://pan.baidu.com/s/1Vkz8-hhXak7CeQVny3aJow?pwd=zk5s)|[Baidu Yun (password: 78b4)](https://pan.baidu.com/s/10wrOO2Y_TK-pY-icejNKuA?pwd=78b4)|[Baidu Yun (password: )]|
 
 These pre-trained models perform a little better than those reported in the paper.
 
