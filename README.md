@@ -24,10 +24,10 @@ You can easily install pytorch (>=1.6) by "pip install" or anaconda.
 Step 1: compile the libs by "sh compile.sh"
 - Change the environmental variable ($PATH, $LD_LIBRARY_PATH etc.), if it's not set correctly in your system environment (e.g. .bashrc). Examples are included in "compile.sh".
 
-Step 2: download and prepare the training dataset or your own testing set.
+Step 2: download and prepare the training dataset or your own test set.
 
         
-Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for training, finetuning and prediction/testing. Note that the “crop_width” and “crop_height” must be multiple of 64 (we will release a better model without this requirement).
+Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for training, finetuning and prediction/testing. Note that the “crop_width” and “crop_height” must be multiple of 64 during training (we will release a better model without this requirement).
 
 
 ## Pretrained models:
