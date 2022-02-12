@@ -431,7 +431,7 @@ def val(testing_data_loader, model, split='sintel', iters=24):
         valid = (valid >= 0.001) #& (mag < MAX_FLOW)
         if valid.sum()>0:
             with torch.no_grad():
-                _, flow = model(input1,input2, iters=iters, test_mode=True)
+                _, flow = model(input1,input2, iters=iters)
                 flow = padder.unpad(flow)
                 epe = torch.sum((flow - target)**2, dim=1).sqrt()
                 epe = epe.view(-1)[valid.view(-1)]
