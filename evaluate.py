@@ -58,7 +58,7 @@ def create_kitti_submission(model, iters=24, output_path='kitti_submission'):
         padder = InputPadder(image1.shape, mode='kitti')
         image1, image2 = padder.pad(image1[None].cuda(), image2[None].cuda())
 
-        _, flow_pr = model(image1, image2, iters=iters, test_mode=True)
+        _, flow_pr = model(image1, image2, iters=iters)
         flow = padder.unpad(flow_pr[0]).permute(1, 2, 0).cpu().numpy()
 
         output_filename = os.path.join(output_path, frame_id)
@@ -79,7 +79,7 @@ def create_kitti2012_submission(model, iters=24, output_path='kitti2012_submissi
         padder = InputPadder(image1.shape, mode='kitti')
         image1, image2 = padder.pad(image1[None].cuda(), image2[None].cuda())
 
-        _, flow_pr = model(image1, image2, iters=iters, test_mode=True)
+        _, flow_pr = model(image1, image2, iters=iters)
         flow = padder.unpad(flow_pr[0]).permute(1, 2, 0).cpu().numpy()
 
         output_filename = os.path.join(output_path, frame_id)
@@ -97,7 +97,7 @@ def validate_chairs(model, iters=24):
         image1 = image1[None].cuda()
         image2 = image2[None].cuda()
 
-        _, flow_pr = model(image1, image2, iters=iters, test_mode=True)
+        _, flow_pr = model(image1, image2, iters=iters)
         epe = torch.sum((flow_pr[0].cpu() - flow_gt)**2, dim=0).sqrt()
         epe_list.append(epe.view(-1).numpy())
 
@@ -123,7 +123,7 @@ def validate_sintel(model, iters=32):
             padder = InputPadder(image1.shape)
             image1, image2 = padder.pad(image1, image2)
 
-            flow_low, flow_pr = model(image1, image2, iters=iters, test_mode=True)
+            flow_low, flow_pr = model(image1, image2, iters=iters)
             flow = padder.unpad(flow_pr[0]).cpu()
 
             epe = torch.sum((flow - flow_gt)**2, dim=0).sqrt()
@@ -157,7 +157,7 @@ def validate_kitti(model, iters=24):
         padder = InputPadder(image1.shape, mode='kitti')
         image1, image2 = padder.pad(image1, image2)
 
-        flow_low, flow_pr = model(image1, image2, iters=iters, test_mode=True)
+        flow_low, flow_pr = model(image1, image2, iters=iters)
         flow = padder.unpad(flow_pr[0]).cpu()
 
         epe = torch.sum((flow - flow_gt)**2, dim=0).sqrt()
@@ -196,7 +196,7 @@ def validate_kitti2012(model, iters=24):
         padder = InputPadder(image1.shape, mode='kitti')
         image1, image2 = padder.pad(image1, image2)
 
-        flow_low, flow_pr = model(image1, image2, iters=iters, test_mode=True)
+        flow_low, flow_pr = model(image1, image2, iters=iters)
         flow = padder.unpad(flow_pr[0]).cpu()
 
         epe = torch.sum((flow - flow_gt)**2, dim=0).sqrt()
