@@ -27,7 +27,7 @@ Step 1: compile the libs by "sh compile.sh"
 Step 2: download and prepare the training dataset or your own test set.
 
         
-Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for training, finetuning and prediction/testing. Note that the “crop_width” and “crop_height” must be multiple of 64 during training (we will release a better model without this requirement).
+Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for training, finetuning and prediction/testing. Note that the “crop_width” and “crop_height” must be multiple of 64 during training.
 
 
 ## Pretrained models:
@@ -38,6 +38,12 @@ Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for train
 |[Baidu Yun (password: zk5s)](https://pan.baidu.com/s/1Vkz8-hhXak7CeQVny3aJow?pwd=zk5s)|[Baidu Yun (password: 78b4)](https://pan.baidu.com/s/10wrOO2Y_TK-pY-icejNKuA?pwd=78b4)|[Baidu Yun (password: gnnd)](https://pan.baidu.com/s/16hoZ3O4sZqlQDAnKBjC59Q?pwd=gnnd)|
 
 These pre-trained models perform a little better than those reported in the paper.
+
+| Leadboards | Sintel clean | Sintel final | KITTI |
+|---|---|---|---|
+| Orginal paper | 1.50 | 2.67 | 4.64 |
+| New implementation | 1.49 | 2.64 | 4.53 |
+
 
 
 
