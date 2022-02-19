@@ -37,12 +37,15 @@ Step 3: revise parameter settings and run "train.sh" and "evaluate.sh" for train
 |[Google Drive](https://drive.google.com/file/d/1baepLE9wxmt4QJEGMC5QeaQCQfZETEAu/view?usp=sharing)|[Google Drive](https://drive.google.com/file/d/1bpm0HmwcBrbyAsikTJR3qST6mAavQ60k/view?usp=sharing)|[Google Drive](https://drive.google.com/file/d/1qqpuaPpFBcg5TjBrg49MZvdJoL7bEy8A/view?usp=sharing)|
 |[Baidu Yun (password: zk5s)](https://pan.baidu.com/s/1Vkz8-hhXak7CeQVny3aJow?pwd=zk5s)|[Baidu Yun (password: 78b4)](https://pan.baidu.com/s/10wrOO2Y_TK-pY-icejNKuA?pwd=78b4)|[Baidu Yun (password: gnnd)](https://pan.baidu.com/s/16hoZ3O4sZqlQDAnKBjC59Q?pwd=gnnd)|
 
-These pre-trained models perform a little better than those reported in the paper.
+These pre-trained models perform a little better than those reported in our original paper.
 
 | Leadboards | Sintel clean | Sintel final | KITTI |
 |---|---|---|---|
+| RAFT baseline | 1.94 | 3.18 | 5.10 |
 | Orginal paper | 1.50 | 2.67 | 4.64 |
-| New implementation | 1.49 | 2.64 | 4.53 |
+| This new implementation | 1.49 | 2.64 | 4.53 |
+
+*Standard two-frame evaluations without previous video frames for "warm start".*
 
 
 
