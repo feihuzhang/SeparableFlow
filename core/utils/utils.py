@@ -46,12 +46,13 @@ class InputPadder:
             c = [self._pad[2], ht-self._pad[3], self._pad[0], wd-self._pad[1]]
             return x[..., c[0]:c[1], c[2]:c[3]]
         else:
-            if len(x.shape) == 3:
+            x_shape = len(x.shape)
+            if x_shape == 3:
                 x = x.unsqueeze(0)
             flow = F.interpolate(x, [self.ht, self.wd], mode='bilinear', align_corners=True)
             flow[:,0,:,:] *= (self.wd*1.0/self.wd_new)
             flow[:,1,:,:] *= (self.ht*1.0/self.ht_new)
-            if len(x.shape) == 3:
+            if x_shape == 3:
                 return flow[0]
             return flow
 
