@@ -54,7 +54,7 @@ These pre-trained models perform a little better than those reported in our orig
 
 If you find the code useful, please cite our paper:
 
-    @inproceedings{Zhang_2021_ICCV,
+    @inproceedings{Zhang2021SepFlow,
       title={Separable Flow: Learning Motion Cost Volumes for Optical Flow Estimation},
       author={Zhang, Feihu and Woodford, Oliver J. and Prisacariu, Victor Adrian and Torr, Philip H.S.},
       booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
