@@ -15,8 +15,11 @@
       2) centos + cuda 11 + python 3.7
       
 
-## Install Pytorch:
-You can easily install pytorch (>=1.6) by "pip install" or anaconda.
+## Environment:
+
+    conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
+    conda install matplotlib tensorboard scipy opencv
+    pip install einops opencv-python pypng
 
 
 ## How to Use?
