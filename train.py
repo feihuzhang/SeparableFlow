@@ -394,6 +394,8 @@ def train(training_data_loader, model, optimizer, scheduler, logger, epoch):
             optimizer.step()
             scheduler.step()
             adjust_learning_rate(optimizer, scheduler)
+            if  scheduler.get_last_lr()[0] < 0.0000002:
+                return
 
             
             valid_iteration += 1
