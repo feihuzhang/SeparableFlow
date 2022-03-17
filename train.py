@@ -322,7 +322,8 @@ def main_worker(gpu, ngpus_per_node, argss):
     else:
         train_sampler = None
         val_sampler = None
-        val_sampler2 = None
+        val_sampler2_1 = None
+        val_sampler2_2 = None
         val_sampler3 = None
     training_data_loader = torch.utils.data.DataLoader(train_set, batch_size=args.batchSize, shuffle=(train_sampler is None), num_workers=args.workers, pin_memory=True, sampler=train_sampler, drop_last=True)
     val_data_loader = torch.utils.data.DataLoader(val_set, batch_size=args.testBatchSize, shuffle=False, num_workers=args.workers//2, pin_memory=True, sampler=val_sampler)
