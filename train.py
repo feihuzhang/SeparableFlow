@@ -94,13 +94,9 @@ def sequence_loss(flow_preds, flow_gt, valid, gamma=0.8, max_flow=MAX_FLOW):
     mag = torch.sum(flow_gt**2, dim=1).sqrt()
     valid = (valid >= 0.5) & (mag < max_flow)
 
-    #weights = [0.05, 0.2, 0.35]
-    #weights = [0.1, 0.2, 0.35]
     weights = [0.1, 0.3, 0.5]
     base = weights[2] - gamma ** (n_predictions - 3)
     for i in range(n_predictions - 3):
-        #weights.append( weights[2] + gamma**(n_predictions - i - 4) * (1 - weights[2]))
-        #weights.append( weights[2] + gamma**(n_predictions - i - 4) )
         weights.append( base + gamma**(n_predictions - i - 4) )
 
     for i in range(n_predictions):
