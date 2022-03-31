@@ -84,17 +84,6 @@ parser.add_argument('--small', action='store_true', help='use small model')
 MAX_FLOW = 400
 SUM_FREQ = 100
 VAL_FREQ = 2500
-#if args.split == 'vkitti' or args.split == 'kitti':
-#    criterion = nn.SmoothL1Loss()
-#    print("Use smooth l1 loss ...")
-#else:
-#    criterion = nn.L1Loss()
-#criterion = nn.SmoothL1Loss()
-criterion = nn.L1Loss()
-
-#torch.manual_seed(16)
-#torch.backends.cudnn.deterministic = True
-#torch.backends.cudnn.benchmark = False
 
 def sequence_loss(flow_preds, flow_gt, valid, gamma=0.8, max_flow=MAX_FLOW):
     """ Loss function defined over sequence of flow predictions """
@@ -102,14 +91,21 @@ def sequence_loss(flow_preds, flow_gt, valid, gamma=0.8, max_flow=MAX_FLOW):
     n_predictions = len(flow_preds)    
     flow_loss = 0.0
 
-    # exlude invalid pixels and extremely large diplacements
     mag = torch.sum(flow_gt**2, dim=1).sqrt()
     valid = (valid >= 0.5) & (mag < max_flow)
 
+    #weights = [0.05, 0.2, 0.35]
+    #weights = [0.1, 0.2, 0.35]
+    weights = [0.1, 0.3, 0.5]
+    base = weights[2] - gamma ** (n_predictions - 3)
+    for i in range(n_predictions - 3):
+        #weights.append( weights[2] + gamma**(n_predictions - i - 4) * (1 - weights[2]))
+        #weights.append( weights[2] + gamma**(n_predictions - i - 4) )
+        weights.append( base + gamma**(n_predictions - i - 4) )
+
     for i in range(n_predictions):
-        i_weight = gamma**(n_predictions - i - 1)
         i_loss = (flow_preds[i] - flow_gt).abs()
-        flow_loss += i_weight * (valid[:, None] * i_loss).mean()
+        flow_loss += weights[i] * (valid[:, None] * i_loss).mean()
 
     epe = torch.sum((flow_preds[-1] - flow_gt)**2, dim=1).sqrt()
     epe = epe.view(-1)[valid.view(-1)]
@@ -330,20 +326,22 @@ def main_worker(gpu, ngpus_per_node, argss):
     val_data_loader2_2 = torch.utils.data.DataLoader(val_set2_2, batch_size=args.testBatchSize, shuffle=False, num_workers=args.workers//2, pin_memory=True, sampler=val_sampler2_2)
     val_data_loader2_1 = torch.utils.data.DataLoader(val_set2_1, batch_size=args.testBatchSize, shuffle=False, num_workers=args.workers//2, pin_memory=True, sampler=val_sampler2_1)
     val_data_loader3 = torch.utils.data.DataLoader(val_set3, batch_size=args.testBatchSize, shuffle=False, num_workers=args.workers//2, pin_memory=True, sampler=val_sampler3)
+
     error = 100
+    args.nEpochs = args.num_steps // len(training_data_loader) + 1
+
     for epoch in range(args.start_epoch, args.nEpochs):
         if args.distributed:
             train_sampler.set_epoch(epoch)
 
         train(training_data_loader, model, optimizer, scheduler, logger, epoch)
-        is_best = False
-        if main_process():
+        if main_process() and epoch > args.nEpochs - 3:
             save_checkpoint(args.save_path, epoch,{
                     'epoch': epoch,
                      'state_dict': model.state_dict(),
                      'optimizer' : optimizer.state_dict(),
                      'scheduler' : scheduler.state_dict(),
-                 }, is_best)
+                 }, False)
         
         if args.stage == 'chairs':
             loss = val(val_data_loader3, model, split='chairs')
@@ -356,11 +354,8 @@ def main_worker(gpu, ngpus_per_node, argss):
 
     if main_process():
         save_checkpoint(args.save_path, args.nEpochs,{
-                'epoch': args.nEpochs,
-                'state_dict': model.state_dict(),
-                'optimizer' : optimizer.state_dict(),
-                'scheduler' : scheduler.state_dict(),
-            }, False)
+                'state_dict': model.state_dict()
+            }, True)
 
 
 
@@ -404,7 +399,7 @@ def train(training_data_loader, model, optimizer, scheduler, logger, epoch):
             if main_process():
                 logger.push(metrics)
          #       print(metrics)
-                if valid_iteration % 2000 == 0: 
+                if valid_iteration % 10000 == 0: 
                     save_checkpoint(args.save_path, epoch,{
                             'epoch': epoch,
                             'state_dict': model.state_dict(),
@@ -470,9 +465,9 @@ def val(testing_data_loader, model, split='sintel', iters=24):
 
 def save_checkpoint(save_path, epoch,state, is_best):
     filename = save_path + "_epoch_{}.pth".format(epoch)
-    torch.save(state, filename)
     if is_best:
-        shutil.copyfile(filename, save_path + '_best_epoch.pth')
+        filename = save_path + ".pth"
+    torch.save(state, filename)
     print("Checkpoint saved to {}".format(filename))
 
 def adjust_learning_rate(optimizer, scheduler):
